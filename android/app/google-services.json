@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "128345206346",
+    "project_id": "fireandapi30days",
+    "storage_bucket": "fireandapi30days.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128345206346:android:eddc05d24fbb98bce140b3",
+        "android_client_info": {
+          "package_name": "com.example.fireandapi30days"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128345206346-j0f4pvmgpav4flgbc4usn2nms614s206.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKukh3l3pZHcA-Wb1NBg711FB70o9A2Cc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128345206346-j0f4pvmgpav4flgbc4usn2nms614s206.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
