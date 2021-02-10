@@ -130,7 +130,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       _nameController.clear();
       _passwordController.clear();
       _emailContoller.clear();
-      // Navigator.pop(context);
+      Navigator.pop(context);
     }
   }
 }
