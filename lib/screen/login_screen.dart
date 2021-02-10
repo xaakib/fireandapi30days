@@ -151,8 +151,7 @@ class _LoginScreen extends State<LoginScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => RegistrationScreen()),
+                      MaterialPageRoute(builder: (context) => RegisterPage()),
                     );
                   },
                   outlineBtn: true,
