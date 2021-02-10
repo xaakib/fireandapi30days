@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void signInUser() async {
-    dynamic authResult =
+    var authResult =
         await _auth.loginUser(_emailContoller.text, _passwordController.text);
     if (authResult == null) {
       print('Sign in error. could not be able to login');

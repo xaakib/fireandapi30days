@@ -11,6 +11,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(),
       appBar: AppBar(
         title: Text("HomeScreen"),
         actions: [
@@ -18,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.login_outlined),
               onPressed: () {
                 _authenticationService.signOut();
+                Navigator.pop(context);
               })
         ],
       ),
