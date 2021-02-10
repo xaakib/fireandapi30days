@@ -1,129 +1,167 @@
 import 'package:fireandapi30days/screen/register_screen.dart';
-import 'package:fireandapi30days/services/authenticationServices.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fireandapi30days/widgets/custom_btn.dart';
+import 'package:fireandapi30days/widgets/custom_input.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginScreen createState() => _LoginScreen();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final _key = GlobalKey<FormState>();
+class _LoginScreen extends State<LoginScreen> {
+  Future<void> _alertDialogBuilder(String error) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Container(
+              child: Text(error),
+            ),
+            actions: [
+              FlatButton(
+                child: Text("Close Dialog"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
+  }
 
-  final AuthenticationService _auth = AuthenticationService();
+  // Create a new user account
+  Future<String> _loginAccount() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _loginEmail, password: _loginPassword);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        return 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        return 'The account already exists for that email.';
+      }
+      return e.message;
+    } catch (e) {
+      return e.toString();
+    }
+  }
 
-  TextEditingController _emailContoller = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  void _submitForm() async {
+    // Set the form to loading state
+    setState(() {
+      _loginFormLoading = true;
+    });
+
+    // Run the create account method
+    String _loginFeedback = await _loginAccount();
+
+    // If the string is not null, we got error while create account.
+    if (_loginFeedback != null) {
+      _alertDialogBuilder(_loginFeedback);
+
+      // Set the form to regular state [not loading].
+      setState(() {
+        _loginFormLoading = false;
+      });
+    }
+  }
+
+  // Default Form Loading State
+  bool _loginFormLoading = false;
+
+  // Form Input Field Values
+  String _loginEmail = "";
+  String _loginPassword = "";
+
+  // Focus Node for input fields
+  FocusNode _passwordFocusNode;
+
+  @override
+  void initState() {
+    _passwordFocusNode = FocusNode();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.deepPurple,
-            child: Center(
-              child: Form(
-                key: _key,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(32.0),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 30),
-                          TextFormField(
-                            controller: _emailContoller,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Email cannot be empty';
-                              } else
-                                return null;
-                            },
-                            decoration: InputDecoration(
-                                labelText: 'Email',
-                                labelStyle: TextStyle(color: Colors.white)),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          SizedBox(height: 30),
-                          TextFormField(
-                            controller: _passwordController,
-                            obscureText: true,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Password cannot be empty';
-                              } else
-                                return null;
-                            },
-                            decoration: InputDecoration(
-                                labelText: 'Password',
-                                labelStyle: TextStyle(color: Colors.white)),
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          FlatButton(
-                            child: Text('Not registerd? Sign up'),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                CupertinoPageRoute(
-                                  fullscreenDialog: true,
-                                  builder: (context) => RegistrationScreen(),
-                                ),
-                              );
-                            },
-                            textColor: Colors.white,
-                          ),
-                          SizedBox(height: 30),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              FlatButton(
-                                child: Text('Login'),
-                                onPressed: () {
-                                  if (_key.currentState.validate()) {
-                                    signInUser();
-                                  }
-                                },
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: EdgeInsets.only(
+                  top: 24.0,
+                ),
+                child: Text(
+                  "Welcome User,\nLogin to your account",
+                  textAlign: TextAlign.center,
                 ),
               ),
-            ),
+              Column(
+                children: [
+                  CustomInput(
+                    hintText: "Email...",
+                    onChanged: (value) {
+                      _loginEmail = value;
+                    },
+                    onSubmit: (value) {
+                      _passwordFocusNode.requestFocus();
+                    },
+                    textinputAction: TextInputAction.next,
+                  ),
+                  CustomInput(
+                    hintText: "Password...",
+                    onChanged: (value) {
+                      _loginPassword = value;
+                    },
+                    focusNode: _passwordFocusNode,
+                    isPasswordField: true,
+                    onSubmit: (value) {
+                      _submitForm();
+                    },
+                  ),
+                  CustomBtn(
+                    text: "Login",
+                    onPressed: () {
+                      _submitForm();
+                    },
+                    isLoading: _loginFormLoading,
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 16.0,
+                ),
+                child: CustomBtn(
+                  text: "Create New Account",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RegistrationScreen()),
+                    );
+                  },
+                  outlineBtn: true,
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
-  }
-
-  void signInUser() async {
-    var authResult =
-        await _auth.loginUser(_emailContoller.text, _passwordController.text);
-    if (authResult == null) {
-      print('Sign in error. could not be able to login');
-    } else {
-      _emailContoller.clear();
-      _passwordController.clear();
-
-      Navigator.pushNamed(context, '/homescreen');
-    }
   }
 }
