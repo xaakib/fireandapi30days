@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _emailContoller.clear();
       _passwordController.clear();
 
-      Navigator.pushNamed(context, '/dashboard');
+      Navigator.pushNamed(context, '/homescreen');
     }
   }
 }
