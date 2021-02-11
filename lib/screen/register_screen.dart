@@ -21,6 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Text(error),
             ),
             actions: [
+              // ignore: deprecated_member_use
               FlatButton(
                 child: Text("Close Dialog"),
                 onPressed: () {
