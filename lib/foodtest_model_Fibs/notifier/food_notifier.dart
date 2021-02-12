@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:CWCFlutter/model/food.dart';
+import 'package:fireandapi30days/foodtest_model_Fibs/model/model.dart';
 import 'package:flutter/cupertino.dart';
 
 class FoodNotifier with ChangeNotifier {

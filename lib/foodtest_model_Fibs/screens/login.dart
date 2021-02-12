@@ -1,6 +1,7 @@
-import 'package:CWCFlutter/api/food_api.dart';
-import 'package:CWCFlutter/model/user.dart';
-import 'package:CWCFlutter/notifier/auth_notifier.dart';
+
+import 'package:fireandapi30days/foodtest_model_Fibs/api/food_api.dart';
+import 'package:fireandapi30days/foodtest_model_Fibs/model/user.dart';
+import 'package:fireandapi30days/foodtest_model_Fibs/notifier/auth_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

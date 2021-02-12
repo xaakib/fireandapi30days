@@ -1,37 +1,38 @@
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
-import 'first_test/screen/homescreen.dart';
-import 'first_test/screen/login_screen.dart';
-import 'first_test/screen/register_screen.dart';
+import 'foodtest_model_Fibs/notifier/auth_notifier.dart';
+import 'foodtest_model_Fibs/notifier/food_notifier.dart';
+import 'foodtest_model_Fibs/screens/feed.dart';
+import 'foodtest_model_Fibs/screens/login.dart';
 
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  runApp(MyApp());
-}
+void main() => runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AuthNotifier(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FoodNotifier(),
+        ),
+      ],
+      child: MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Coding with Curry',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        accentColor: Colors.lightBlue,
       ),
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => LoginScreen(),
-        '/register': (context) => RegisterPage(),
-        '/homescreen': (context) => HomeScreen(),
-      },
+      home: Consumer<AuthNotifier>(
+        builder: (context, notifier, child) {
+          return notifier.user != null ? Feed() : Login();
+        },
+      ),
     );
   }
 }
