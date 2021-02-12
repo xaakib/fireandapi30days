@@ -1,14 +1,15 @@
-import 'package:fireandapi30days/screen/register_screen.dart';
-import 'package:fireandapi30days/widgets/custom_btn.dart';
-import 'package:fireandapi30days/widgets/custom_input.dart';
+import 'package:fireandapi30days/first_test/widgets/custom_btn.dart';
+import 'package:fireandapi30days/first_test/widgets/custom_input.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-class LoginScreen extends StatefulWidget {
+
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginScreen createState() => _LoginScreen();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginScreen extends State<LoginScreen> {
+class _RegisterPageState extends State<RegisterPage> {
+  // Build an alert dialog to display some errors.
   Future<void> _alertDialogBuilder(String error) async {
     return showDialog(
         context: context,
@@ -20,6 +21,7 @@ class _LoginScreen extends State<LoginScreen> {
               child: Text(error),
             ),
             actions: [
+              // ignore: deprecated_member_use
               FlatButton(
                 child: Text("Close Dialog"),
                 onPressed: () {
@@ -32,10 +34,10 @@ class _LoginScreen extends State<LoginScreen> {
   }
 
   // Create a new user account
-  Future<String> _loginAccount() async {
+  Future<String> _createAccount() async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _loginEmail, password: _loginPassword);
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _registerEmail, password: _registerPassword);
       return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -52,29 +54,32 @@ class _LoginScreen extends State<LoginScreen> {
   void _submitForm() async {
     // Set the form to loading state
     setState(() {
-      _loginFormLoading = true;
+      _registerFormLoading = true;
     });
 
     // Run the create account method
-    String _loginFeedback = await _loginAccount();
+    String _createAccountFeedback = await _createAccount();
 
     // If the string is not null, we got error while create account.
-    if (_loginFeedback != null) {
-      _alertDialogBuilder(_loginFeedback);
+    if (_createAccountFeedback != null) {
+      _alertDialogBuilder(_createAccountFeedback);
 
       // Set the form to regular state [not loading].
       setState(() {
-        _loginFormLoading = false;
+        _registerFormLoading = false;
       });
+    } else {
+      // The String was null, user is logged in.
+      Navigator.pop(context);
     }
   }
 
   // Default Form Loading State
-  bool _loginFormLoading = false;
+  bool _registerFormLoading = false;
 
   // Form Input Field Values
-  String _loginEmail = "";
-  String _loginPassword = "";
+  String _registerEmail = "";
+  String _registerPassword = "";
 
   // Focus Node for input fields
   FocusNode _passwordFocusNode;
@@ -105,7 +110,7 @@ class _LoginScreen extends State<LoginScreen> {
                   top: 24.0,
                 ),
                 child: Text(
-                  "Welcome User,\nLogin to your account",
+                  "Create A New Account",
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -114,7 +119,7 @@ class _LoginScreen extends State<LoginScreen> {
                   CustomInput(
                     hintText: "Email...",
                     onChanged: (value) {
-                      _loginEmail = value;
+                      _registerEmail = value;
                     },
                     onSubmit: (value) {
                       _passwordFocusNode.requestFocus();
@@ -124,7 +129,7 @@ class _LoginScreen extends State<LoginScreen> {
                   CustomInput(
                     hintText: "Password...",
                     onChanged: (value) {
-                      _loginPassword = value;
+                      _registerPassword = value;
                     },
                     focusNode: _passwordFocusNode,
                     isPasswordField: true,
@@ -133,11 +138,11 @@ class _LoginScreen extends State<LoginScreen> {
                     },
                   ),
                   CustomBtn(
-                    text: "Login",
+                    text: "Create New Account",
                     onPressed: () {
                       _submitForm();
                     },
-                    isLoading: _loginFormLoading,
+                    isLoading: _registerFormLoading,
                   )
                 ],
               ),
@@ -146,12 +151,9 @@ class _LoginScreen extends State<LoginScreen> {
                   bottom: 16.0,
                 ),
                 child: CustomBtn(
-                  text: "Create New Account",
+                  text: "Back To Login",
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()),
-                    );
+                    Navigator.pop(context);
                   },
                   outlineBtn: true,
                 ),

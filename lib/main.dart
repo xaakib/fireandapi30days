@@ -1,10 +1,12 @@
-import 'package:fireandapi30days/screen/homescreen.dart';
-import 'package:fireandapi30days/screen/login_screen.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'screen/register_screen.dart';
+import 'first_test/screen/homescreen.dart';
+import 'first_test/screen/login_screen.dart';
+import 'first_test/screen/register_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
