@@ -1,8 +1,8 @@
 import 'package:fireandapi30days/screen/register_screen.dart';
 import 'package:fireandapi30days/widgets/custom_btn.dart';
 import 'package:fireandapi30days/widgets/custom_input.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreen createState() => _LoginScreen();
