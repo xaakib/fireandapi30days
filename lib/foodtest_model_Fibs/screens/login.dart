@@ -156,6 +156,7 @@ class _LoginState extends State<Login> {
         ),
         decoration: BoxDecoration(color: Color(0xff34056D)),
         child: Form(
+          // ignore: deprecated_member_use
           autovalidate: true,
           key: _formKey,
           child: SingleChildScrollView(

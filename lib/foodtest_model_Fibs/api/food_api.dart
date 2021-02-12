@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fireandapi30days/foodtest_model_Fibs/model/model.dart';
 import 'package:fireandapi30days/foodtest_model_Fibs/notifier/auth_notifier.dart';
+import 'package:fireandapi30days/foodtest_model_Fibs/notifier/food_notifier.dart';
 import 'package:firebase/firebase.dart';
 import 'package:firebase/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +13,7 @@ import 'package:uuid/uuid.dart';
 
 login(User user, AuthNotifier authNotifier) async {
   AuthResult authResult = await FirebaseAuth.instance
-      .signInWithEmailAndPassword(email: user.email, password: user.password)
+      .signInWithEmailAndPassword(email: user.email , password: user.email)
       .catchError((error) => print(error.code));
 
   if (authResult != null) {
@@ -25,7 +29,7 @@ login(User user, AuthNotifier authNotifier) async {
 signup(User user, AuthNotifier authNotifier) async {
   AuthResult authResult = await FirebaseAuth.instance
       .createUserWithEmailAndPassword(
-          email: user.email, password: user.password)
+          email: user.email, password: user.email)
       .catchError((error) => print(error.code));
 
   if (authResult != null) {

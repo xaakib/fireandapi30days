@@ -3,5 +3,5 @@ class User {
   String email;
   String password;
 
-  User();
+  User({this.displayName, this.email, this.password});
 }
