@@ -1,22 +1,7 @@
+import 'package:fireandapi30days/homescreen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'foodtest_model_Fibs/notifier/auth_notifier.dart';
-import 'foodtest_model_Fibs/notifier/food_notifier.dart';
-import 'foodtest_model_Fibs/screens/feed.dart';
-import 'foodtest_model_Fibs/screens/login.dart';
-
-void main() => runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => AuthNotifier(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => FoodNotifier(),
-        ),
-      ],
-      child: MyApp(),
-    ));
+void main() => MyApp();
 
 class MyApp extends StatelessWidget {
   @override
@@ -28,11 +13,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor: Colors.lightBlue,
       ),
-      home: Consumer<AuthNotifier>(
-        builder: (context, notifier, child) {
-          return notifier.user != null ? Feed() : Login();
-        },
-      ),
+      home: HomeScreen(),
     );
   }
 }

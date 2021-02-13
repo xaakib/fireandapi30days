@@ -23,13 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_auth: 
-  cloud_firestore: 
-  provider: 
-  image_picker: 
-  firebase_storage: 
-  path: 
-  uuid: 
   
 
 dev_dependencies:
